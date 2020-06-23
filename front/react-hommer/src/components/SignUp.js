@@ -8,6 +8,7 @@ class SignUp extends Component {
       password: "monPassw0rd",
       name: "James",
       lastname: "Bond",
+      flash: ""
     };
   }
 
@@ -17,15 +18,29 @@ class SignUp extends Component {
     this.setState({ [name]: value });
   };
 
+  getData = () => {
+    const { flash, ...user } = this.state;
+    fetch("/auth/signup", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then(
+        (res) => this.setState({ flash: res.flash }),
+        (err) => this.setState({ flash: err.flash })
+      );
+  };
+
   handleSubmit = (e) => {
-    let data = this.state;
     e.preventDefault();
-    console.log(data);
+    this.getData();
   };
 
   render() {
     const storedata = JSON.stringify(this.state);
-
     return (
       <div className="SignUp">
         <h3>{storedata}</h3>
@@ -42,14 +57,14 @@ class SignUp extends Component {
               onChange={this.updateField}
             />
           </div>
-          <div className="input">
+          {/* <div className="input">
             <p>Password Verification:</p>
             <input
               type="password"
               name="passwordconf"
               onChange={this.updateField}
             />
-          </div>
+          </div> */}
           <div className="input">
             <p>Name:</p>
             <input type="text" name="name" onChange={this.updateField} />
@@ -58,7 +73,7 @@ class SignUp extends Component {
             <p>Last Name:</p>
             <input type="text" name="lastname" onChange={this.updateField} />
           </div>
-          <div className="sumit" style = {{marginTop:'20px'}}>
+          <div className="sumit" style={{ marginTop: "20px" }}>
             <input type="submit" value="Submit" />
           </div>
         </form>

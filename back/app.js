@@ -5,6 +5,15 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
 const authRouter = require('./routes/auth/auth');
+const connection = require('./helpers/db');
+
+connection.connect(err => {
+  if(err) {
+    console.log(err);
+  } else {
+    console.log('Successfully connected to db')
+  }
+})
 
 
 app.use(morgan('dev'));
