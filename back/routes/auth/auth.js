@@ -1,22 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const connection = require('../../helpers/db');
+const connection = require("../../helpers/db");
 
-
-router.post('/signup', (req, res, next) => {
-  const { email, password, name, lastname } = req.body;
-  connection.query(
-    "INSERT INTO users (email, password, name, lastname) VALUES (?,?,?,?)",
-    [email, password, name, lastname],
-    (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Error saving a movie");
-      } else {
-        res.status(200).send("Successfully saved");
-      }
+router.post("/signup", (req, res, next) => {
+  console.log(req.body);
+  const formData = req.body;
+  connection.query("INSERT INTO users SET ?", formData, (err, results) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ flash: "User has not been signed up!" });
     }
-  );
+    if (results) {
+      res.status(200).json({ flash: "User has been signed up!" });
+    }
+  });
 });
 
 router.get("/signup", (req, res) => {
