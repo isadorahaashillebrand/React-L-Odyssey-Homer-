@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Button, TextField } from '@material-ui/core';
+
+import "./SignUp.css";
 
 class SignUp extends Component {
   constructor(props) {
@@ -47,35 +50,27 @@ class SignUp extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="input">
             <p>E-mail:</p>
-            <input type="email" name="email" onChange={this.updateField} />
+            <TextField type="email" name="email" onChange={this.updateField} />
           </div>
           <div className="input">
             <p>Password:</p>
-            <input
+            <TextField
               type="password"
               name="password"
               onChange={this.updateField}
             />
           </div>
-          {/* <div className="input">
-            <p>Password Verification:</p>
-            <input
-              type="password"
-              name="passwordconf"
-              onChange={this.updateField}
-            />
-          </div> */}
           <div className="input">
             <p>Name:</p>
-            <input type="text" name="name" onChange={this.updateField} />
+            <TextField type="text" name="name" onChange={this.updateField} />
           </div>
           <div className="input">
             <p>Last Name:</p>
-            <input type="text" name="lastname" onChange={this.updateField} />
+            <TextField type="text" name="lastname" onChange={this.updateField} />
           </div>
-          <div className="sumit" style={{ marginTop: "20px" }}>
-            <input type="submit" value="Submit" />
-          </div>
+          <div className="button">
+              <Button variant="contained" color="primary" onClick={this.handleSubmit}>Submit</Button>
+            </div>
         </form>
       </div>
     );
