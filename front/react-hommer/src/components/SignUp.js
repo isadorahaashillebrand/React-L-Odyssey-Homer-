@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Button, TextField, Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-
 import "./SignUp.css";
 
 class SignUp extends Component {
@@ -47,6 +47,7 @@ class SignUp extends Component {
         (res) => this.setState({ flash: res.flash }),
         (err) => this.setState({ flash: err.flash })
       );
+      this.props.history.push('/');
   };
 
   handleSubmit = (e) => {
@@ -124,6 +125,7 @@ class SignUp extends Component {
               }
             />
           </div>
+          <Link to="/signin">I already have an account</Link>
         </form>
       </div>
     );
