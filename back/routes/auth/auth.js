@@ -8,9 +8,8 @@ router.post("/signup", (req, res, next) => {
   connection.query("INSERT INTO users SET ?", formData, (err, results) => {
     if (err) {
       console.log(err);
-      res.status(500).json({ flash: "User has not been signed up!" });
-    }
-    if (results) {
+      res.status(500).json({ flash: err.message });
+    } else {
       res.status(200).json({ flash: "User has been signed up!" });
     }
   });

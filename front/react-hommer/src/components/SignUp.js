@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { Button, TextField, Snackbar, IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+
+import "./SignUp.css";
 
 class SignUp extends Component {
   constructor(props) {
@@ -8,7 +12,8 @@ class SignUp extends Component {
       password: "monPassw0rd",
       name: "James",
       lastname: "Bond",
-      flash: ""
+      flash: "",
+      open: false,
     };
   }
 
@@ -18,8 +23,18 @@ class SignUp extends Component {
     this.setState({ [name]: value });
   };
 
+  handleClick = () => {
+    this.setState({ open: true });
+  };
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ open: false });
+  };
+
   getData = () => {
-    const { flash, ...user } = this.state;
+    const { flash, open, ...user } = this.state;
     fetch("/auth/signup", {
       method: "POST",
       headers: new Headers({
@@ -36,6 +51,7 @@ class SignUp extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.handleClick();
     this.getData();
   };
 
@@ -47,34 +63,66 @@ class SignUp extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="input">
             <p>E-mail:</p>
-            <input type="email" name="email" onChange={this.updateField} />
+            <TextField type="email" name="email" onChange={this.updateField} />
           </div>
           <div className="input">
             <p>Password:</p>
-            <input
+            <TextField
               type="password"
               name="password"
               onChange={this.updateField}
             />
           </div>
-          {/* <div className="input">
-            <p>Password Verification:</p>
-            <input
-              type="password"
-              name="passwordconf"
-              onChange={this.updateField}
-            />
-          </div> */}
           <div className="input">
             <p>Name:</p>
-            <input type="text" name="name" onChange={this.updateField} />
+            <TextField type="text" name="name" onChange={this.updateField} />
           </div>
           <div className="input">
             <p>Last Name:</p>
-            <input type="text" name="lastname" onChange={this.updateField} />
+            <TextField
+              type="text"
+              name="lastname"
+              onChange={this.updateField}
+            />
           </div>
-          <div className="sumit" style={{ marginTop: "20px" }}>
-            <input type="submit" value="Submit" />
+          <div className="button">
+            <Button
+              className="button"
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Submit
+            </Button>
+            <Snackbar
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              open={this.state.open}
+              autoHideDuration={6000}
+              onClose={this.handleClose}
+              message={this.state.flash}
+              action={
+                <React.Fragment>
+                  <Button
+                    color="secondary"
+                    size="small"
+                    onClick={this.handleClose}
+                  >
+                    UNDO
+                  </Button>
+                  <IconButton
+                    size="small"
+                    aria-label="close"
+                    color="inherit"
+                    onClick={this.handleClose}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </React.Fragment>
+              }
+            />
           </div>
         </form>
       </div>
