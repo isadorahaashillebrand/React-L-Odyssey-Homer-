@@ -31,6 +31,8 @@ class SignUp extends Component {
       return;
     }
     this.setState({ open: false });
+
+    this.props.history.push("/");
   };
 
   getData = () => {
@@ -47,7 +49,6 @@ class SignUp extends Component {
         (res) => this.setState({ flash: res.flash }),
         (err) => this.setState({ flash: err.flash })
       );
-      this.props.history.push('/');
   };
 
   handleSubmit = (e) => {
