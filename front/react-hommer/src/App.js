@@ -1,10 +1,12 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { MuiThemeProvider, Grid, Paper } from "@material-ui/core";
 import "./App.css";
-import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
-import Profile from "./components/Profile";
+import SignUp from "./conteiners/SignUp";
+import SignIn from "./conteiners/SignIn";
+import Profile from "./conteiners/Profile";
+import requireAuth from "./hoc/requireAuth";
+import requireNotAuth from "./hoc/requireNotAuth";
 
 function App() {
   return (
@@ -23,10 +25,22 @@ function App() {
                 <Grid item xs={12} sm={6}>
                   <BrowserRouter>
                     <Switch>
-                      <Route exact path="/" component={SignIn} />
-                      <Route exact path="/signin" component={SignIn} />
-                      <Route path="/signup" component={SignUp} />
-                      <Route path="/profile" component={Profile} />
+                      <Redirect exact from="/" to="/profile" />
+                      <Route
+                        exact
+                        path="/signin"
+                        component={requireNotAuth(SignIn)}
+                      />
+                      <Route
+                        exact
+                        path="/signup"
+                        component={requireNotAuth(SignUp)}
+                      />
+                      <Route
+                        exact
+                        path="/profile"
+                        component={requireAuth(Profile)}
+                      />
                     </Switch>
                   </BrowserRouter>
                 </Grid>
