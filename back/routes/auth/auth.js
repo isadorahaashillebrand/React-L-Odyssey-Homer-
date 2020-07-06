@@ -28,7 +28,8 @@ router.post("/signin", function (req, res, next) {
     if (err) return res.status(500).send(err);
     if (!user) return res.status(400).json({ message: info.message });
     const token = jwt.sign(JSON.stringify(user), "your_jwt_secret");
-    return res.json({ user, token });
+    const message = "User Signed In"
+    return res.json({ user, token, message });
   })(req, res);
 });
 
